@@ -9,12 +9,21 @@ class AppListScreen extends StatelessWidget {
   );
 
   List<App> _getApps(context) {
+    if (Provider.of<Data>(context).apps == null) {
+      return null;
+    }
     return Provider.of<Data>(context).apps.values.toList();
   }
 
   @override
   Widget build(BuildContext context) {
     var apps = this._getApps(context);
+
+    if (apps == null) {
+      return Scaffold(
+        body: Text('Loading'),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(

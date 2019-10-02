@@ -10,9 +10,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provider<Data>(
+    return ChangeNotifierProvider<Data>(
       builder: (context) => Data(),
-      dispose: (context, value) => value.dispose(),
       child: MaterialApp(
         title: 'Named Routes Demo',
         initialRoute: '/',

@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
+import './mocks.dart';
 enum ComponentType {
   Heading,
   Text,
@@ -14,41 +18,66 @@ class UIComponent {
   String type;
 
   UIComponent(this.id, this.type, this.value, this.handlers);
+
+  UIComponent.fromJSON(Map<String, dynamic> json) :
+      id = json['id'],
+      type = json['type'],
+      value = json['value'],
+      handlers = json['handlers'];
 }
 
 class UISchema {
   List<String> order;
   Map<String, UIComponent> components;
 
-  UISchema(this.order, this.components);
+  UISchema(Iterable jsonOrder, Map<String, dynamic> jsonComponents) {
+    order = List<String>.from(jsonOrder);
+    components = {};
+    jsonComponents.values.forEach(
+      (component) => components[component['id']] = UIComponent.fromJSON(component)
+    );
+  }
 }
 
 class App {
   String id;
   String title;
   UISchema uiSchema;
+
   App(this.id, this.title, this.uiSchema);
+  App.fromJSON(Map<String, dynamic> json):
+        id = json['id'],
+        title = json['title'],
+        uiSchema = UISchema(
+            json['uiSchema']['order'],
+            json['uiSchema']['components']
+        );
 }
 
 Map<String, App> mocks = {
-  'appId1': App(
-      'appId1',
-      'App',
-      UISchema(
-          ['id1', 'id2'],
-          {
-            'id1': UIComponent('id1', 'heading', {'value': 'Some random text'}, []),
-            'id2': UIComponent('id2', 'button', {'label': 'Alert!'}, ['alert']),
-          }
-      )
-  )
+  'appId1': App.fromJSON(JSONMocks['appId1'])
 };
 
-class Data {
-  Map<String, App> apps;
-  Data(): this.apps = mocks;
-
-  void dispose() {
-
+class Data extends ChangeNotifier {
+  Map<String, App> _apps;
+  Data() {
+    this._apps = mocks;
   }
+
+  Map<String, App> get apps => this._apps;
+
+  void addComponent(String appId, UIComponent component) {
+    App app = this._apps[appId];
+    if(app == null) {
+      return;
+    }
+    if (component.id == null) {
+      component.id = Random().nextDouble().toString();
+    }
+    print(app.uiSchema.order.runtimeType);
+    app.uiSchema.order.add(component.id);
+    app.uiSchema.components[component.id] = component;
+    notifyListeners();
+  }
+
 }
