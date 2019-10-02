@@ -1,27 +1,27 @@
-dynamic mockedApp = {
-  'uiSchema': {
-    'order': [
-      'id1',
-      'id2'
-    ],
-    'components': {
-      'id1': {
-        'id': 'id1',
-        'type': 'heading',
-        'value': {
-          'text': "Heading of the app"
-        }
-      },
-      'id2': {
-        'id': 'id2',
-        'type': 'button',
-        'handlers': [
-          'alert'
-        ]
-      }
-    }
-  }
-};
+enum ComponentType {
+  Heading,
+  Text,
+  Button,
+  Link,
+  Image,
+  Dropdown
+}
+
+class UIComponent {
+  String id;
+  Map<String, dynamic> value;
+  List<String> handlers;
+  String type;
+
+  UIComponent(this.id, this.type, this.value, this.handlers);
+}
+
+class UISchema {
+  List<String> order;
+  Map<String, UIComponent> components;
+
+  UISchema(this.order, this.components);
+}
 
 class App {
   String id;
@@ -32,36 +32,23 @@ class App {
 
 Map<String, App> mocks = {
   'appId1': App(
-    'appId1',
-    'App',
-    mockedApp['uiSchema']
+      'appId1',
+      'App',
+      UISchema(
+          ['id1', 'id2'],
+          {
+            'id1': UIComponent('id1', 'heading', {'value': 'Some random text'}, []),
+            'id2': UIComponent('id2', 'button', {'label': 'Alert!'}, ['alert']),
+          }
+      )
   )
 };
 
-
-enum ComponentType {
-  Heading,
-  Text,
-  Button,
-  Link,
-  Image,
-  Dropdown
-}
-
-abstract class UIComponent {
-  String id;
-  Map<String, dynamic> value;
-  List<String> handlers;
-  String type;
-}
-
-abstract class UISchema {
-  List<String> order;
-  Map<String, UIComponent> components;
-}
-
 class Data {
-  Map<String, App> getAllApps() {
-    return mocks;
+  Map<String, App> apps;
+  Data(): this.apps = mocks;
+
+  void dispose() {
+
   }
 }

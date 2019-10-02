@@ -7,7 +7,7 @@ class EditorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editing app with id: ${this.appId}'),
+        title: Text('Editing app ${this.appId}'),
         actions: <Widget>[
           FlatButton(
             textColor: Colors.white,
