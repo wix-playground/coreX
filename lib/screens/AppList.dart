@@ -36,6 +36,7 @@ class AppListScreen extends StatelessWidget {
 
             return FlatButton(
                 onPressed: () {
+                  Provider.of<Data>(context).setActiveAppId(item.id);
                   Navigator.of(context).pushNamed('/editor', arguments: item.id);
                 },
                 child: Text(item.title,

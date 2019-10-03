@@ -60,11 +60,21 @@ Map<String, App> mocks = {
 
 class Data extends ChangeNotifier {
   Map<String, App> _apps;
+
+  String _activeAppId;
+
   Data() {
     this._apps = mocks;
   }
 
   Map<String, App> get apps => this._apps;
+
+  String get activeAppId => this._activeAppId;
+
+  void setActiveAppId(String id) {
+    _activeAppId = id;
+    notifyListeners();
+  }
 
   void addComponent(String appId, UIComponent component) {
     App app = this._apps[appId];
