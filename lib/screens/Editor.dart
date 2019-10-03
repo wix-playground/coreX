@@ -27,18 +27,47 @@ class EditorScreen extends StatelessWidget {
         ],
       ),
       body: Center(
-          child: ListView.builder(
-              itemCount: app.uiSchema.order.length,
-              itemBuilder: (context, index) {
-                String componentId = app.uiSchema.order[index];
-                UIComponent component = app.uiSchema.components[componentId];
-                Widget componentUI = ViewRenderer.getView(component, true);
+        child: ListView.builder(
+          itemCount: app.uiSchema.order.length,
+          itemBuilder: (context, index) {
+            String componentId = app.uiSchema.order[index];
+            UIComponent component = app.uiSchema.components[componentId];
+            Widget componentUI = ViewRenderer.getView(component, true);
 
-                return FlatButton(
+            return Stack(
+              children: <Widget>[
+                FlatButton(
                   child: componentUI,
                   onPressed: () => print('EDIT COMPONENT $componentId'),
-                );
-              })),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    width: 152,
+                    color: Color(0xAAFFFFFF),
+                    child: ButtonBar(
+                      children: <Widget>[
+                        FlatButton(
+                          child: Icon(Icons.keyboard_arrow_down),
+                          onPressed: () {
+                            data.moveComponentDown(appId, componentId);
+                          },
+                        ),
+                        FlatButton(
+                          child: Icon(Icons.keyboard_arrow_up),
+                          onPressed: () {
+                            data.moveComponentUp(appId, componentId);
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            );
+          }
+        )
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).pushNamed('/componentsList'),
         child: Icon(Icons.add),
