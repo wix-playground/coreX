@@ -26,7 +26,10 @@ class RouteGenerator {
       case '/componentsList':
         return MaterialPageRoute(builder: (context) => ComponentsListScreen());
       case '/editComponent':
-        return MaterialPageRoute(builder: (context) => EditComponentScreen());
+        return MaterialPageRoute(
+            builder: (context) => EditComponentScreen(
+                  component: args,
+                ));
       default:
         return _errorRoute();
     }

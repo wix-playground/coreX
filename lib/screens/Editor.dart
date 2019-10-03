@@ -27,20 +27,18 @@ class EditorScreen extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: ListView.builder(
-          itemCount: app.uiSchema.order.length,
-          itemBuilder: (context, index) {
-            String componentId = app.uiSchema.order[index];
-            UIComponent component = app.uiSchema.components[componentId];
-            Widget componentUI = ViewRenderer.getView(component, true);
+          child: ListView.builder(
+              itemCount: app.uiSchema.order.length,
+              itemBuilder: (context, index) {
+                String componentId = app.uiSchema.order[index];
+                UIComponent component = app.uiSchema.components[componentId];
+                Widget componentUI = ViewRenderer.getView(component, true);
 
-            return FlatButton(
-              child: componentUI,
-              onPressed: () => print('EDIT COMPONENT $componentId'),
-            );
-          }
-        )
-      ),
+                return FlatButton(
+                  child: componentUI,
+                  onPressed: () => print('EDIT COMPONENT $componentId'),
+                );
+              })),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).pushNamed('/componentsList'),
         child: Icon(Icons.add),
