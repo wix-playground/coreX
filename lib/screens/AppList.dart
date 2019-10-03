@@ -47,7 +47,7 @@ class AppListScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add your onPressed code here!
-          Navigator.of(context).pushNamed('/editor');
+          Navigator.of(context).pushNamed('/new-app');
         },
         child: Icon(Icons.add),
       ),

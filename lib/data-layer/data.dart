@@ -76,6 +76,29 @@ class Data extends ChangeNotifier {
     notifyListeners();
   }
 
+  String addApp(String appName) {
+    String newId = Random().nextDouble().toString();
+    dynamic defaultAppAsJSON = {
+      "id": newId,
+      "title": appName,
+      "uiSchema": {
+        "order": [],
+        "components": {
+          "_": {
+            "id": "_",
+            "type": "_",
+            "value": {
+              "_": {}
+            },
+          }, // hack to make it cast this JSON into Map
+        }
+      }
+    };
+    _apps[newId] = App.fromJSON(defaultAppAsJSON);
+    notifyListeners();
+    return newId;
+  }
+
   void addComponent(String appId, UIComponent component) {
     App app = _apps[appId];
     if(app == null) {

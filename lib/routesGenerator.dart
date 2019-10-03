@@ -4,6 +4,7 @@ import 'package:core_x/screens/AppList.dart';
 import 'package:core_x/screens/ComponentsList.dart';
 import 'package:core_x/screens/Editor.dart';
 import 'package:core_x/screens/Preview.dart';
+import 'package:core_x/screens/NewApp.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -12,6 +13,8 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (context) => AppListScreen());
+      case '/new-app':
+        return MaterialPageRoute(builder: (context) => NewAppScreen());
       case '/editor':
         if (args is String) {
           return MaterialPageRoute(
