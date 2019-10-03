@@ -1,3 +1,4 @@
+import 'package:core_x/components/view-renderer/viewRenderer.dart';
 import 'package:core_x/data-layer/data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,18 +32,11 @@ class EditorScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             String componentId = app.uiSchema.order[index];
             UIComponent component = app.uiSchema.components[componentId];
+            Widget componentUI = ViewRenderer.getView(component, true);
+
             return FlatButton(
-                onPressed: () {
-                  print('Edit component ' + componentId);
-                },
-                child: Text(
-                    component.type + (
-                        component.type == 'text' ?
-                          component.value['text'] :
-                        ''
-                    ),
-                    style: TextStyle(fontSize: 25)
-                )
+              child: componentUI,
+              onPressed: () => print('EDIT COMPONENT ${componentId}'),
             );
           }
       )),

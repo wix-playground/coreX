@@ -5,10 +5,10 @@ const JSONMocks = {
     "uiSchema": {
       "order": [
         "id1",
+        "id5",
+        "id4",
         "id2",
         "id3",
-        "id4",
-        "id5",
       ],
       "components": {
         "id1": {
@@ -21,6 +21,9 @@ const JSONMocks = {
         "id2": {
           "id": "id2",
           "type": "button",
+          "value": {
+            "label": "Print message to a console"
+          },
           "handlers": [
             "alert"
           ]
@@ -29,6 +32,7 @@ const JSONMocks = {
           "id": "id3",
           "type": "link",
           "value": {
+            "text": "Read more about Wix.com",
             "src": "www.wix.com",
           }
         },
@@ -36,14 +40,14 @@ const JSONMocks = {
           "id": "id4",
           "type": "text",
           "value": {
-            "text": "Wix is Cool!",
+            "text": "Flutter is Google’s mobile UI framework for crafting high-quality native interfaces on iOS and Android in record time. Flutter works with existing code, is used by developers and organizations around the world, and is free and open source.",
           }
         },
         "id5": {
           "id": "id5",
           "type": "image",
           "value": {
-            "src": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png",
+            "src": "https://static.wixstatic.com/media/33c0e5f0-4a79-4fb3-96c1-d1b15f219957.png",
           }
         }
       }
