@@ -7,8 +7,24 @@ class ComponentsListScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Available Components'),
         ),
-        body: Center(
-          child: Text('Components List'),
+        body: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed('/editComponent', arguments: 'text');
+                },
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.text_fields),
+                    Text('Text Component'),
+                  ],
+                ),
+              ),
+            )
+          ],
         ));
   }
 }

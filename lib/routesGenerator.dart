@@ -1,3 +1,4 @@
+import 'package:core_x/screens/EditComponent.dart';
 import 'package:flutter/material.dart';
 import 'package:core_x/screens/AppList.dart';
 import 'package:core_x/screens/ComponentsList.dart';
@@ -24,6 +25,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => PreviewScreen());
       case '/componentsList':
         return MaterialPageRoute(builder: (context) => ComponentsListScreen());
+      case '/editComponent':
+        return MaterialPageRoute(builder: (context) => EditComponentScreen());
       default:
         return _errorRoute();
     }

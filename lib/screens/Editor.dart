@@ -2,7 +2,6 @@ import 'package:core_x/components/view-renderer/viewRenderer.dart';
 import 'package:core_x/data-layer/data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:math';
 
 class EditorScreen extends StatelessWidget {
   final String appId;
@@ -27,32 +26,21 @@ class EditorScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(child: ListView.builder(
-          itemCount: app.uiSchema.order.length,
-          itemBuilder: (context, index) {
-            String componentId = app.uiSchema.order[index];
-            UIComponent component = app.uiSchema.components[componentId];
-            Widget componentUI = ViewRenderer.getView(component, true);
+      body: Center(
+          child: ListView.builder(
+              itemCount: app.uiSchema.order.length,
+              itemBuilder: (context, index) {
+                String componentId = app.uiSchema.order[index];
+                UIComponent component = app.uiSchema.components[componentId];
+                Widget componentUI = ViewRenderer.getView(component, true);
 
-            return FlatButton(
-              child: componentUI,
-              onPressed: () => print('EDIT COMPONENT ${componentId}'),
-            );
-          }
-      )),
+                return FlatButton(
+                  child: componentUI,
+                  onPressed: () => print('EDIT COMPONENT ${componentId}'),
+                );
+              })),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-          String id = Random().nextDouble().toString();
-          data.addComponent(appId, UIComponent.fromJSON({
-            "id": id,
-            "type": "text",
-            "value": {
-              "text": " new component " + id
-            }
-          }));
-//          Navigator.of(context).pushNamed('/componentsList');
-        },
+        onPressed: () => Navigator.of(context).pushNamed('/componentsList'),
         child: Icon(Icons.add),
       ),
     );
