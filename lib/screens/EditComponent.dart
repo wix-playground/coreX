@@ -55,7 +55,7 @@ class _EditComponentState extends State<EditComponentScreen> {
             RaisedButton(
               onPressed: () {
                 print(component.type);
-                if (['Image', 'Link'].contains(component.type)) {
+                if (['image', 'link'].contains(component.type.toLowerCase())) {
                   data.addComponent(
                       appId,
                       UIComponent.fromJSON({
@@ -65,7 +65,8 @@ class _EditComponentState extends State<EditComponentScreen> {
                       }));
                 }
 
-                if (['Heading', 'text'].contains(component.type)) {
+                if (['heading', 'text']
+                    .contains(component.type.toLowerCase())) {
                   data.addComponent(
                       appId,
                       UIComponent.fromJSON({
