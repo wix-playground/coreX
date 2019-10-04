@@ -32,10 +32,15 @@ class _EditComponentState extends State<EditComponentScreen> {
     final appId = data.activeAppId;
 
     String componentType = component.type.toLowerCase();
-    print(componentType);
 
+    if (componentType == 'link') {
+      if (component.value != null && component.value['src'] != '') {
+        srcController.text = component.value['src'];
+      }
+      if (component.value != null && component.value['text'] != '') {
+        textController.text = component.value['text'];
+      }
 
-    if(componentType == 'link') {
       return Scaffold(
           appBar: AppBar(
             title: Text('Edititing link component'),
@@ -49,14 +54,13 @@ class _EditComponentState extends State<EditComponentScreen> {
                     decoration: new InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.0),
+                              BorderSide(color: Colors.blueGrey, width: 2.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.0),
+                              BorderSide(color: Colors.blueGrey, width: 2.0),
                         ),
-                        hintText: 'Put here link src'
-                    )),
+                        hintText: 'Put here link src')),
               ),
               Padding(
                 padding: EdgeInsets.all(20.0),
@@ -65,33 +69,74 @@ class _EditComponentState extends State<EditComponentScreen> {
                     decoration: new InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.0),
+                              BorderSide(color: Colors.blueGrey, width: 2.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.0),
+                              BorderSide(color: Colors.blueGrey, width: 2.0),
                         ),
-                        hintText: 'Put here link text'
-                    )),
+                        hintText: 'Put here link text')),
               ),
-              RaisedButton(
-                onPressed: () {
-                  data.addComponent(
-                      appId,
-                      UIComponent.fromJSON({
-                        "id": component.id,
-                        "type": componentType,
-                        "value": {"src": srcController.text, "text": textController.text}
-                      }));
+              srcController.text != ''
+                  ? Center(
+                      child: Column(
+                        children: <Widget>[
+                          RaisedButton(
+                            onPressed: () {
+                              data.removeComponent(appId, component.id);
 
-                  Navigator.of(context).pushNamed('/editor', arguments: appId);
-                },
-                child: Text('Create ${component.type.toLowerCase()} component'),
-              )
+                              Navigator.of(context)
+                                  .pushNamed('/editor', arguments: appId);
+                            },
+                            child: Text('Delete'),
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              data.addComponent(
+                                  appId,
+                                  UIComponent.fromJSON({
+                                    "id": component.id,
+                                    "type": componentType,
+                                    "value": {
+                                      "src": srcController.text,
+                                      "text": textController.text
+                                    }
+                                  }));
+
+                              Navigator.of(context)
+                                  .pushNamed('/editor', arguments: appId);
+                            },
+                            child: Text('Update'),
+                          )
+                        ],
+                      ),
+                    )
+                  : RaisedButton(
+                      onPressed: () {
+                        data.addComponent(
+                            appId,
+                            UIComponent.fromJSON({
+                              "id": component.id,
+                              "type": componentType,
+                              "value": {
+                                "src": srcController.text,
+                                "text": textController.text
+                              }
+                            }));
+
+                        Navigator.of(context)
+                            .pushNamed('/editor', arguments: appId);
+                      },
+                      child: Text(
+                          'Create ${component.type.toLowerCase()} component'),
+                    )
             ],
           ));
     }
-    if(['text', 'heading'].contains(componentType)) {
+    if (['text', 'heading'].contains(componentType)) {
+      if (component.value != null && component.value['text'] != '') {
+        textController.text = component.value['text'];
+      }
       return Scaffold(
           appBar: AppBar(
             title: Text('Edititing $componentType component'),
@@ -105,34 +150,70 @@ class _EditComponentState extends State<EditComponentScreen> {
                     decoration: new InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.0),
+                              BorderSide(color: Colors.blueGrey, width: 2.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.0),
+                              BorderSide(color: Colors.blueGrey, width: 2.0),
                         ),
-                        hintText: 'Put here text'
-                    )),
+                        hintText: 'Put here text')),
               ),
-              RaisedButton(
-                onPressed: () {
-                  data.addComponent(
-                      appId,
-                      UIComponent.fromJSON({
-                        "id": component.id,
-                        "type": component.type.toLowerCase(),
-                        "value": {"text": textController.text}
-                      }));
+              textController.text != ''
+                  ? Center(
+                      child: Column(children: <Widget>[
+                        RaisedButton(
+                          onPressed: () {
+                            data.removeComponent(appId, component.id);
 
-                  Navigator.of(context).pushNamed('/editor', arguments: appId);
-                },
-                child: Text('Create ${component.type.toLowerCase()} component'),
-              )
+                            Navigator.of(context)
+                                .pushNamed('/editor', arguments: appId);
+                          },
+                          child: Text('Delete'),
+                        ),
+                        RaisedButton(
+                          onPressed: () {
+                            data.addComponent(
+                                appId,
+                                UIComponent.fromJSON({
+                                  "id": component.id,
+                                  "type": componentType,
+                                  "value": {
+                                    "src": srcController.text,
+                                    "text": textController.text
+                                  }
+                                }));
+
+                            Navigator.of(context)
+                                .pushNamed('/editor', arguments: appId);
+                          },
+                          child: Text('Update'),
+                        )
+                      ]),
+                    )
+                  : RaisedButton(
+                      onPressed: () {
+                        data.addComponent(
+                            appId,
+                            UIComponent.fromJSON({
+                              "id": component.id,
+                              "type": component.type.toLowerCase(),
+                              "value": {"text": textController.text}
+                            }));
+
+                        Navigator.of(context)
+                            .pushNamed('/editor', arguments: appId);
+                      },
+                      child: Text(
+                          'Create ${component.type.toLowerCase()} component'),
+                    )
             ],
           ));
     }
 
-    if(componentType == 'image') {
+    if (componentType == 'image') {
+      if (component.value != null && component.value['src'] != '') {
+        srcController.text = component.value['src'];
+      }
       return Scaffold(
           appBar: AppBar(
             title: Text('Edititing image component'),
@@ -146,34 +227,72 @@ class _EditComponentState extends State<EditComponentScreen> {
                     decoration: new InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.0),
+                              BorderSide(color: Colors.blueGrey, width: 2.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.0),
+                              BorderSide(color: Colors.blueGrey, width: 2.0),
                         ),
-                        hintText: 'Put here image src'
-                    )),
+                        hintText: 'Put here image src')),
               ),
-              RaisedButton(
-                onPressed: () {
-                  data.addComponent(
-                      appId,
-                      UIComponent.fromJSON({
-                        "id": component.id,
-                        "type": componentType,
-                        "value": {"src": srcController.text}
-                      }));
+              srcController.text != ''
+                  ? Center(
+                      child: Column(
+                        children: <Widget>[
+                          RaisedButton(
+                            onPressed: () {
+                              data.removeComponent(appId, component.id);
 
-                  Navigator.of(context).pushNamed('/editor', arguments: appId);
-                },
-                child: Text('Create ${component.type.toLowerCase()} component'),
-              )
+                              Navigator.of(context)
+                                  .pushNamed('/editor', arguments: appId);
+                            },
+                            child: Text('Delete'),
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              data.addComponent(
+                                  appId,
+                                  UIComponent.fromJSON({
+                                    "id": component.id,
+                                    "type": componentType,
+                                    "value": {
+                                      "src": srcController.text,
+                                      "text": textController.text
+                                    }
+                                  }));
+
+                              Navigator.of(context)
+                                  .pushNamed('/editor', arguments: appId);
+                            },
+                            child: Text('Update'),
+                          )
+                        ],
+                      ),
+                    )
+                  : RaisedButton(
+                      onPressed: () {
+                        data.addComponent(
+                            appId,
+                            UIComponent.fromJSON({
+                              "id": component.id,
+                              "type": componentType,
+                              "value": {"src": srcController.text}
+                            }));
+
+                        Navigator.of(context)
+                            .pushNamed('/editor', arguments: appId);
+                      },
+                      child: Text(
+                          'Create ${component.type.toLowerCase()} component'),
+                    )
             ],
           ));
     }
 
-    if(componentType == 'button') {
+    if (componentType == 'button') {
+      if (component.value != null && component.value['label'] != '') {
+        textController.text = component.value['label'];
+      }
       return Scaffold(
           appBar: AppBar(
             title: Text('Edititing button component'),
@@ -187,29 +306,61 @@ class _EditComponentState extends State<EditComponentScreen> {
                     decoration: new InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.0),
+                              BorderSide(color: Colors.blueGrey, width: 2.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.0),
+                              BorderSide(color: Colors.blueGrey, width: 2.0),
                         ),
-                        hintText: 'Put here button text'
-                    )),
+                        hintText: 'Put here button text')),
               ),
-              RaisedButton(
-                onPressed: () {
-                  data.addComponent(
-                      appId,
-                      UIComponent.fromJSON({
-                        "id": component.id,
-                        "type": componentType,
-                        "value": {"label": textController.text}
-                      }));
+              textController.text != ''
+                  ? Center(
+                      child: Column(children: <Widget>[
+                      RaisedButton(
+                        onPressed: () {
+                          data.removeComponent(appId, component.id);
 
-                  Navigator.of(context).pushNamed('/editor', arguments: appId);
-                },
-                child: Text('Create ${component.type.toLowerCase()} component'),
-              )
+                          Navigator.of(context)
+                              .pushNamed('/editor', arguments: appId);
+                        },
+                        child: Text('Delete'),
+                      ),
+                      RaisedButton(
+                        onPressed: () {
+                          data.addComponent(
+                              appId,
+                              UIComponent.fromJSON({
+                                "id": component.id,
+                                "type": componentType,
+                                "value": {
+                                  "src": srcController.text,
+                                  "text": textController.text
+                                }
+                              }));
+
+                          Navigator.of(context)
+                              .pushNamed('/editor', arguments: appId);
+                        },
+                        child: Text('Update'),
+                      )
+                    ]))
+                  : RaisedButton(
+                      onPressed: () {
+                        data.addComponent(
+                            appId,
+                            UIComponent.fromJSON({
+                              "id": component.id,
+                              "type": componentType,
+                              "value": {"label": textController.text}
+                            }));
+
+                        Navigator.of(context)
+                            .pushNamed('/editor', arguments: appId);
+                      },
+                      child: Text(
+                          'Create ${component.type.toLowerCase()} component'),
+                    )
             ],
           ));
     }

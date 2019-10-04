@@ -1,5 +1,6 @@
 import 'package:core_x/components/view-renderer/viewRenderer.dart';
 import 'package:core_x/data-layer/data.dart';
+import 'package:core_x/screens/ComponentsList.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -52,11 +53,28 @@ class EditorScreen extends StatelessWidget {
               UIComponent component = app.uiSchema.components[componentId];
               Widget componentUI = ViewRenderer.getView(component, true);
 
+              print(component);
+
+              Map<String,IconData> iconsTypes = {
+                'text': Icons.text_fields,
+                'link': Icons.link,
+                'heading': Icons.text_fields,
+                'image': Icons.image,
+                'button': Icons.directions_car,
+              };
+
               return Stack(
                 children: <Widget>[
                   FlatButton(
                     child: componentUI,
-                    onPressed: () => print('EDIT COMPONENT $componentId'),
+                    onPressed: () => {
+                      Navigator
+                          .of(context)
+                          .pushNamed(
+                            '/editComponent',
+                          arguments:
+                          Component(component.type, iconsTypes[component.type], component.id, component.value))
+                    },
                   ),
                   Align(
                     alignment: Alignment.topRight,

@@ -99,6 +99,18 @@ class Data extends ChangeNotifier {
     return newId;
   }
 
+  void removeComponent(String appId, componentId) {
+    App app = _apps[appId];
+    if(app == null) {
+      return;
+    }
+
+    app.uiSchema.order.remove(componentId);
+    app.uiSchema.components.remove(componentId);
+    notifyListeners();
+
+  }
+
   void addComponent(String appId, UIComponent component) {
     App app = _apps[appId];
     if(app == null) {
@@ -107,8 +119,9 @@ class Data extends ChangeNotifier {
     if (component.id == null) {
       component.id = Random().nextDouble().toString();
     }
-    print(app.uiSchema.order.runtimeType);
-    app.uiSchema.order.add(component.id);
+    if(!app.uiSchema.order.contains(component.id)){
+      app.uiSchema.order.add(component.id);
+    }
     app.uiSchema.components[component.id] = component;
     notifyListeners();
   }

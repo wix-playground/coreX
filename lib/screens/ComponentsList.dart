@@ -6,11 +6,13 @@ class Component {
   String type;
   String id;
   IconData icon;
+  dynamic value;
 
-  Component(String type, IconData icon) {
+  Component(String type, IconData icon, [String id , value] ) {
     this.type = type;
-    this.id = Random().nextDouble().toString();
+    this.id = id;
     this.icon = icon;
+    this.value = value;
   }
 }
 
