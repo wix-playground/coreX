@@ -64,16 +64,16 @@ class EditorScreen extends StatelessWidget {
               };
 
               return Stack(
-                children: <Widget>[
+                children: [
                   FlatButton(
                     child: componentUI,
-                    onPressed: () => {
+                    onPressed: () {
                       Navigator
                           .of(context)
                           .pushNamed(
                             '/editComponent',
-                          arguments:
-                          Component(component.type, iconsTypes[component.type], component.id, component.value))
+                            arguments: Component(component.type, iconsTypes[component.type], component.id, component.value)
+                          );
                     },
                   ),
                   Align(
@@ -82,7 +82,7 @@ class EditorScreen extends StatelessWidget {
                       width: 152,
                       color: Color(0xAAFFFFFF),
                       child: ButtonBar(
-                        children: <Widget>[
+                        children: [
                           FlatButton(
                             child: Icon(Icons.keyboard_arrow_down),
                             onPressed: () {

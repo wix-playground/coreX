@@ -364,5 +364,7 @@ class _EditComponentState extends State<EditComponentScreen> {
             ],
           ));
     }
+
+    return Text('Cannot render component $componentType');
   }
 }
