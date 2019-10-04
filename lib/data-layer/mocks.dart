@@ -22,7 +22,7 @@ const JSONMocks = {
           "id": "id2",
           "type": "button",
           "value": {
-            "label": "Print message to a console"
+              "label": "Print message to a console"
           },
           "handlers": [
             "alert"
