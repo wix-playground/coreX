@@ -334,8 +334,7 @@ class _EditComponentState extends State<EditComponentScreen> {
                                 "id": component.id,
                                 "type": componentType,
                                 "value": {
-                                  "src": srcController.text,
-                                  "text": textController.text
+                                  "label": textController.text
                                 }
                               }));
 
